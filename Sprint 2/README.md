@@ -2,7 +2,7 @@
 
 // Declaramos las variables de la primera piscina.
 
-largoPiscina1 = ****real**** := 300;<br>
+largoPiscina1 = **real** := 300;<br>
 anchoPiscina1 = **real** := 150;<br>
 profundidadPiscina1 = **real** := 20;
 
