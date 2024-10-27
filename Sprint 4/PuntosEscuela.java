@@ -38,8 +38,7 @@ public class PuntosEscuela {
 
     public static void main(String[] args) {
 
-        // Declaramos constantes para faciliar el manejo de puntos si en un futuro se
-        // deciden cambiar los valores.
+        // Declaramos constantes para faciliar el manejo de puntos si en un futuro se deciden cambiar los valores.
 
         final int PUNTOS_HERMANO = 40;
         final int PUNTOS_VIVE_MISMA_POBLACION = 30;
