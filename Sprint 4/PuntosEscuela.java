@@ -5,13 +5,10 @@ public class PuntosEscuela {
     static int validarDato(Scanner datos, String mensaje, int numeroMinimo, int numeroMaximo) {
 
         /*
-         * Se crea un método que comprueba el número de entrada que sea un entero. Si el
-         * dato
+         * Se crea un método que comprueba el número de entrada que sea un entero. Si el dato
          * introducido no es un entero, devolvemos mensaje a usuario y volvemos a pedir
-         * el dato. Si el dato
-         * introducido además es menor al mínimo indicado y mayor al máximo establecido,
-         * también
-         * mostramos mensaje al usuario y volvemos a pedir los datos.
+         * el dato. Si el dato introducido además es menor al mínimo indicado y mayor al máximo 
+         * establecido, también mostramos mensaje al usuario y volvemos a pedir los datos.
          */
 
         int entero;
