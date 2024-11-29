@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Sorteo {
+public class Optica {
 
     // Constantes para los rangos
     private static final int ID_MINIMO = 111;
@@ -17,21 +17,36 @@ public class Sorteo {
 
         int numero = 0;
         boolean entra = true;
+        int intentos = 0;
 
-        while (entra) {
+        while (entra && intentos < 3) {
             if (teclado.hasNextInt()) {
                 numero = teclado.nextInt();
                 if (numero >= rangoMinimo && numero <= rangoMaximo) {
-                    entra = false;
+                    return numero;
                 } else {
-                    System.out.print("Número fuera de rango. Vuelve a introducir el número: ");
+                    intentos++;
+                    if (intentos < 2) {
+                        System.out.print(
+                                "Número fuera de rango. Te quedan " + (3 - intentos)
+                                        + " intentos. Vuelve a introducir el número: ");
+                    } else if (intentos == 2) {
+                        System.out.print("Numero fuera de rango. Te queda 1 intento. Vuelve a introducir el número: ");
+                    }
                 }
             } else {
-                System.out.print("Tienes que introducir un número entero. Vuelve a introducir el número: ");
+                intentos++;
+                if (intentos < 2) {
+                    System.out.print("Tienes que introducir un número entero. Te quedan " + (3 - intentos)
+                            + " intentos. Vuelve a introducir el número: ");
+                } else if (intentos == 2) {
+                    System.out.print("Numero fuera de rango. Te queda 1 intento. Vuelve a introducir el número: ");
+                }
                 teclado.next(); // Limpiamos la entrada no válida
             }
         }
-        return numero;
+        System.out.println("Se han agotado los intentos! Este cliente no se ha registrado!");
+        return -1; // Devuelve -1 cuando se han agotado los 3 intentos
     }
 
     // Método para pedir el ID
@@ -81,7 +96,7 @@ public class Sorteo {
             case 3:
                 return "Socio";
             default:
-                return null; // Nunca va a llegar hasta aquí porque validarDato no lo va dejar
+                return null; // Nunca va a llegar hasta aquí porque validarDato no lo va permitir
         }
     }
 
@@ -98,7 +113,7 @@ public class Sorteo {
     public static void mostrarResultados(int id, int edad, int tipoDeVenta, int precioCompra, int telefono) {
 
         String textoVenta = obtenerTextoVenta(tipoDeVenta);
-        String[] filaUno = { "Id", "Edad", "Tipo", "Importe", "Teléfono" };
+        String[] filaUno = { "\nId", "Edad", "Tipo", "Importe", "Teléfono" };
         String[] filaDos = {
                 Integer.toString(id),
                 Integer.toString(edad),
@@ -122,24 +137,62 @@ public class Sorteo {
 
     // Método principal responsable de gestionar todo el proceso
     public static void iniciarSorteo() {
-
         Scanner teclado = new Scanner(System.in);
 
-        int id = pedirID(teclado);
-        int edad = pedirEdad(teclado);
-        int tipoDeVenta = pedirTipoDeVenta(teclado);
-        int precioCompra = pedirPrecio(teclado);
-        int telefono = pedirTelefono(teclado);
+        int clientesIntroducidos = 0; // Contador de clientes introducidos correctamente
+        boolean entra = true;
 
-        // Mostrar los resultados una vez recogidos los datos
-        mostrarResultados(id, edad, tipoDeVenta, precioCompra, telefono);
+        while (entra) {
 
+            System.out.println("\nIntroduce los datos de un nuevo cliente:\n");
+
+            int id = pedirID(teclado);
+            if (id == -1)
+                continue;
+
+            int edad = pedirEdad(teclado);
+            if (edad == -1)
+                continue;
+
+            int tipoDeVenta = pedirTipoDeVenta(teclado);
+            if (tipoDeVenta == -1)
+                continue;
+
+            int precioCompra = pedirPrecio(teclado);
+            if (precioCompra == -1)
+                continue;
+
+            int telefono = pedirTelefono(teclado);
+            if (telefono == -1)
+                continue;
+
+            // Mostrar los resultados una vez recogidos los datos
+            mostrarResultados(id, edad, tipoDeVenta, precioCompra, telefono);
+
+            // Aumentamos el contador de clientes introducidos correctamente
+            clientesIntroducidos++;
+
+            // Preguntar si se desea introducir otro cliente
+            System.out.print("\n\n¿Deseas introducir otro cliente? (sí/no): ");
+            String respuesta = teclado.next();
+
+            if (respuesta.equals("no")) {
+                entra = false; // Salimos del bucle, si la respuesta es "no"
+            }
+        }
+
+        // Al final, mostrar el número total de clientes introducidos
+        if (clientesIntroducidos == 1) {
+            System.out.println("\nSe ha registrado 1 cliente correctamente");
+        } else {
+            System.out.println("\nSe han registrado " + clientesIntroducidos + " clientes correctamente.");
+        }
         teclado.close();
     }
 
     public static void main(String[] args) {
 
-        // Ejecuta el proceso principal
+        // Ejecuta el método principal
         iniciarSorteo();
     }
 }
